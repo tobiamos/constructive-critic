@@ -1,0 +1,24 @@
+{
+    "success": false,
+    "message": {
+        "errors": {
+            "email": {
+                "message": "Email must be at least 5 characters but not more than 30",
+                "name": "ValidatorError",
+                "properties": {
+                    "type": "user defined",
+                    "message": "Email must be at least 5 characters but not more than 30",
+                    "path": "email",
+                    "value": "                                               "
+                },
+                "kind": "user defined",
+                "path": "email",
+                "value": "                                               ",
+                "$isValidatorError": true
+            }
+        },
+        "_message": "User validation failed",
+        "message": "User validation failed: email: Email must be at least 5 characters but not more than 30",
+        "name": "ValidationError"
+    }
+}
