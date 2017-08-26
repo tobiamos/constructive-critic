@@ -10,15 +10,21 @@ import { Router } from "@angular/router";
 export class ProfileComponent implements OnInit {
 
   username;
-  email
+  email;
+  photo;
+  count;
+  messages : String[];
 
   constructor(private auth : AuthService) { }
 
   ngOnInit() {
     this.auth.getProfile().subscribe(profile=>{
-
       this.username = profile.user.username;
       this.email = profile.user.email;
+      this.photo = profile.user.photo;
+      this.messages = profile.user.messages;
+      this.count = profile.user.messages.length;
+      console.log(profile);
 
     })
   }

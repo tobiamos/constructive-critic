@@ -1,64 +1,56 @@
 <div class="well">
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-sm-5 col-xs-4"></div>
-                <div class="col-sm-2 col-xs-4">
-                    <img src="../../../assets/tobi.jpg" class="img-responsive img-no-padding img-circle" alt="">
-                    <p><i class="fa fa-gear"></i>{{username}}</p>
-                    <p><i class="fa fa-envelope cb"></i> Email : {{email}}</p>
-                    <p><a href="#">tobidev.constructivecritic.com</a></p>
-                </div>
-                <div class="col-sm-5 col-xs-4"></div>
-            </div>
-
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-sm-5 col-xs-4"></div>
+        <div class="col-sm-2 col-xs-4">
+          <img [src]="photo" class="img-responsive img-no-padding img-circle" alt="">
+          <p><i class="fa fa-gear"></i>{{username}}</p>
+          <p><i class="fa fa-envelope cb"></i> Messages : {{count}}</p>
+          <p><a href="#">tobidev.constructivecritic.com</a></p>
         </div>
-        <div class="col-md-1"></div>
+        <div class="col-sm-5 col-xs-4"></div>
+      </div>
+
     </div>
+    <div class="col-md-1"></div>
+  </div>
 </div>
 <div class="well">
-        <h3 class="text-center"><i class="fa fa-comments"></i> Messages </h3>
-        <div class="row">
-            <div class="nav-tabs-navigation">
-                <div class="nav-tabs-wrapper">
-                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                        <li class="active"><a href="#home" data-toggle="tab">Recieved</a></li>
-                        <li><a href="#profile" data-toggle="tab">Favourites</a></li>
-                        <li><a href="#messages" data-toggle="tab">Sent</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div id="my-tab-content" class="tab-content">
-                <div class="tab-pane active" id="home">
-                    <div class="recieved">
-                     <p>You're a great guy but too much of an introvert! Live your life to the fullest.</p>
-                    <small class="blue">August 6th 2017,3:04pm</small>-<a class="report" href="#">Report</a>
-                    <p>
-                        <span>
-                            <i class="fa fa-trash-o"></i>
-                            <i class="fa fa-heart-o"></i>
-                        </span>
-                    </p>
-                    </div>
-                    <div class="recieved">
-                     <p>Call your crush and shoot your shot!!</p>
-                    <small class="blue">August 8th 2017,4:04pm</small>-<a class="report" href="#">Report</a>
-                    <p>
-                        <span>
-                            <i class="fa fa-trash-o"></i>
-                            <i class="fa fa-heart-o"></i>
-                        </span>
-                    </p>
-                    </div>
-                </div>
-                <div class="tab-pane" id="profile">
-                    <p>You have no favorite messages</p>
-                </div>
-                <div class="tab-pane" id="messages">
-                    <p>Here are your messages.</p>
-                </div>
-            </div>
-        </div>
+  <h3 class="text-center"><i class="fa fa-comments"></i> Messages </h3>
+  <div class="row">
+    <div class="nav-tabs-navigation">
+      <div class="nav-tabs-wrapper">
+        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+          <li class="active"><a href="#home" data-toggle="tab">Recieved</a></li>
+          <li><a href="#profile" data-toggle="tab">Favourites</a></li>
+          <li><a href="#messages" data-toggle="tab">Sent</a></li>
+        </ul>
+      </div>
     </div>
+    <div id="my-tab-content" class="tab-content">
+      <div class="tab-pane active" id="home">
+        <div *ngFor="let mess of messages">
+          <div class="recieved">
+            <p>{{mess.message}}</p>
+            <small class="blue">{{mess.date | date : "dd/MM/yyyy"}}</small>-<a class="report" href="#">Report</a>
+            <p>
+              <span>
+                    <i class="fa fa-trash-o"></i>
+                    <i class="fa fa-heart-o"></i>
+                </span>
+            </p>
+          </div>
+        </div>
 
+      </div>
+      <div class="tab-pane" id="profile">
+        <p>You have no favorite messages</p>
+      </div>
+      <div class="tab-pane" id="messages">
+        <p>Here are your messages.</p>
+      </div>
+    </div>
+  </div>
+</div>

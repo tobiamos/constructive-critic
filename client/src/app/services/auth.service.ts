@@ -61,6 +61,15 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  getMessage(username){
+    return this._http.get(`http://localhost:3000/api/message/${username}`)
+    .map(res => res.json());
+  }
+  sendMessage(userid,message){
+    return this._http.post(`http://localhost:3000/api/message/${userid}`,message)
+    .map(res=> res.json());
+  }
+
   logout() {
     this.authToken = null;
     this.user = null;

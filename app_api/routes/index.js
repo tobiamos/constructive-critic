@@ -4,8 +4,11 @@ const ctrlAuth = require('../controllers/auth');
 
 
 
+router.get('/message/:username', ctrlAuth.message);
+router.post('/message/:id', ctrlAuth.sendMessage);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+
 
 router.get('/checkemail/:email', ctrlAuth.checkEmail);
 router.get('/checkusername/:username', ctrlAuth.checkUsername);

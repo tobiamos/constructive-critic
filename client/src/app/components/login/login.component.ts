@@ -49,10 +49,10 @@ export class LoginComponent implements OnInit {
     this.loginForm.controls["password"].enable();
   }
 
-  get email() {
-    return this.loginForm.get("email");
+  
+  get email () {
+    return this.loginForm.get('email');
   }
-
   get password() {
     return this.loginForm.get("password");
   }

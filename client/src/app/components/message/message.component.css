@@ -1,0 +1,12 @@
+img {
+    width : 80px;
+    height: 80px;
+}
+.well{
+    background: #fff;
+}
+
+textarea{
+    border: 1px solid skyblue;
+    /* background: #F5F5F5; */
+}

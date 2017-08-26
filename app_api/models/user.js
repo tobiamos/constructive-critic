@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt-nodejs");
 
 
+const messgeSchema = new mongoose.Schema({
+  message : {type:String, required: true},
+  date : { type: Date, default: Date.now()}
+});
+
+
 
 function emailLengthChecker (email){
     if(!email){
@@ -152,7 +158,8 @@ const UserSchema = new mongoose.Schema({
     validate: nameValidators
   },
   password: { type: String, required: true, validate: passwordValidators },
-  photo: { type: String }
+  photo: { type: String, default: "http://localhost:3000/uploads/persin.png" },
+  messages : [messgeSchema]
 });
 
 UserSchema.pre("save", function(next) {

@@ -107,31 +107,77 @@ module.exports.login = (req, res, next) => {
   }
 };
 
-module.exports.headers = (req,res,next)=>{
- const token = req.headers['authorization'];
- if(!token){
-   res.json({success:false, message: "No token provided"});
- }else{
-   jwt.verify(token, crypto, (err, decoded)=>{
-     if(err){
-       res.json({success:false, message:"Token Invalid" + err});
-     }else{
-       req.decoded = decoded;
-       next();
-     }
-   })
- }
-}
+module.exports.message = (req, res, next) => {
+  if (!req.params.username) {
+    res.json({ success: false, message: "No username provided" });
+  } else {
+    User.findOne({ username: req.params.username })
+      .select("name photo")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else if (!user) {
+          res.json({ success: false, message: "User does not exist" });
+        } else {
+          res.json({ success: true, user: user });
+        }
+      });
+  }
+};
 
+module.exports.sendMessage = (req, res, next) => {
+  if (!req.params.id) {
+    res.json({ success: false, message: "No user id provided" });
+  } else if (!req.body.message) {
+    res.json({ success: false, message: "No message field provided" });
+  } else {
+    User.findOne({ _id: req.params.id })
+      .select("messages")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else if (!user) {
+          res.json({ success: false, message: "User not found" });
+        } else if (user) {
+          user.messages.push({ message: req.body.message, date: Date.now() });
+          user.save((err,data)=>{
+            if(err){
+              res.json({success:false , message:err});
+            }else{
+              res.json({success:true, message: "Message sent successfully"});
+            }
+          })
+        }
+      });
+  }
+};
 
-module.exports.profile  = (req,res,next) =>{
-  User.findOne({_id : req.decoded.userId}).select('username email').exec((err,user)=>{
-    if(err){
-      res.json({success:false, message: err});
-    }else if (!user){
-      res.json({success:false, message:"User not found"});
-    }else{
-      res.json({success:true, user : user});
-    }
-  })
-}
+module.exports.headers = (req, res, next) => {
+  const token = req.headers["authorization"];
+  if (!token) {
+    res.json({ success: false, message: "No token provided" });
+  } else {
+    jwt.verify(token, crypto, (err, decoded) => {
+      if (err) {
+        res.json({ success: false, message: "Token Invalid" + err });
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    });
+  }
+};
+
+module.exports.profile = (req, res, next) => {
+  User.findOne({ _id: req.decoded.userId })
+    .select("username email messages photo")
+    .exec((err, user) => {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else if (!user) {
+        res.json({ success: false, message: "User not found" });
+      } else {
+        res.json({ success: true, user: user });
+      }
+    });
+};

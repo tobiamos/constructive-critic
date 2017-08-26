@@ -16,6 +16,7 @@ import { HomeComponent } from './components/home/home.component';
 import {AuthService} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
 import { NotAuthGuard } from "./guards/notauth.guard";
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NotAuthGuard } from "./guards/notauth.guard";
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
