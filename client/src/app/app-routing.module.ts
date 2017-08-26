@@ -7,14 +7,16 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { HomeComponent } from "./components/home/home.component";
+import { AuthGuard } from "./guards/auth.guard";
+import { NotAuthGuard } from "./guards/notauth.guard";
 
 const appRoutes: Routes = [
   { path: "", component: HomeComponent },
   { path: "about", component: AboutComponent },
   {path : "contact", component : ContactComponent},
-  {path : "login", component: LoginComponent},
-  {path : "register", component: RegisterComponent},
-  {path : "profile", component: ProfileComponent},
+  {path : "login", component: LoginComponent, canActivate:[NotAuthGuard]},
+  {path : "register", component: RegisterComponent, canActivate:[NotAuthGuard]},
+  {path : "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path : "**", component : HomeComponent}
 ];
 

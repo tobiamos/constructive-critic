@@ -1,3 +1,43 @@
-<p>
-  login works!
-</p>
+<div class="row">
+  <div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{message}}
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="panel">
+      <div class="panel-heading panel-default">
+        <h3 class="panel-title text-center">
+          <i class="fa fa-sign-in"></i>Login
+        </h3>
+      </div>
+      <div class="panel-body">
+        <form [formGroup]="loginForm" novalidate (submit)="onSubmit()">
+          <div class="form-group">
+            <label for="email"> <i class="fa fa-envelope"></i> Email</label>
+            <div [ngClass]="{'has-error': email.errors && email.dirty , 'has-success': email.valid && email.dirty}">
+              <input type="email" formControlName="email" name="email" id="email" class="form-control">
+              <ul class="help-block">
+                <li *ngIf="email.errors?.required && email.dirty">This field is required</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password"><i class="fa fa-lock"></i>Password</label>
+            <div [ngClass]="{'has-error': password.errors && password.dirty, 'has-success': password.valid && password.dirty}">
+              <input type="password" formControlName="password" name="password" id="password" class="form-control">
+              <ul class="help-block">
+                <li *ngIf="password.errors?.required && password.dirty">This field is required</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>

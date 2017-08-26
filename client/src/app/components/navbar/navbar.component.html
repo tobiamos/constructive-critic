@@ -15,9 +15,10 @@
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/">Home</a></li>
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" ><a routerLink="/about">About</a></li>
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/contact">Contact</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/profile">Profile</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/login">Login</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/register">Register</a></li>
+          <li *ngIf="auth.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/profile">Profile</a></li>
+          <li *ngIf="!auth.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/login">Login</a></li>
+          <li *ngIf="auth.loggedIn()"><a href="#" (click)="onLogout()">Logout</a></li>
+          <li *ngIf="!auth.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/register">Register</a></li>
         </ul>
       </div>
       <!-- /.navbar-collapse -->

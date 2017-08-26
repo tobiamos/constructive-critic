@@ -1,12 +1,29 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http, RequestOptions } from "@angular/http";
 import "rxjs/add/operator/map";
+import { tokenNotExpired } from "angular2-jwt";
 
 @Injectable()
 export class AuthService {
   registerRoute = "http://localhost:3000/api/register";
-  checkEmailRoute = "http://localhost:3000/api/checkemail/";
-  checkUsernameRoute = "http://localhost:3000/api/checkusername/";
+  authToken;
+  user;
+  options;
+
+  createAuthenticationHeaders() {
+    this.loadToken();
+    this.options = new RequestOptions({
+      headers: new Headers({
+        "Content-Type": "application/json",
+        authorization: this.authToken
+      })
+    });
+  }
+
+  loadToken() {
+    this.authToken = localStorage.getItem("token");
+  }
+
   constructor(private _http: Http) {}
 
   registerUser(user) {
@@ -20,6 +37,36 @@ export class AuthService {
   }
 
   checkEmail(email) {
-    return this._http.get(`http://localhost:3000/api/checkemail/${email}`).map(res => res.json());
+    return this._http
+      .get(`http://localhost:3000/api/checkemail/${email}`)
+      .map(res => res.json());
+  }
+
+  login(user) {
+    return this._http
+      .post(`http://localhost:3000/api/login`, user)
+      .map(res => res.json());
+  }
+  storeUserData(token, user) {
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+    this.authToken = token;
+    this.user = user;
+  }
+
+  getProfile() {
+    this.createAuthenticationHeaders();
+    return this._http
+      .get(`http://localhost:3000/api/profile`, this.options)
+      .map(res => res.json());
+  }
+
+  logout() {
+    this.authToken = null;
+    this.user = null;
+    localStorage.clear();
+  }
+  loggedIn() {
+    return tokenNotExpired();
   }
 }
