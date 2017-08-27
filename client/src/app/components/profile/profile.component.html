@@ -1,3 +1,8 @@
+<div class="row show-hide-message">
+    <div [ngClass]="infoClass">
+      {{info}}
+    </div>
+  </div>
 <div class="well">
   <div class="row">
     <div class="col-md-1"></div>
@@ -31,19 +36,24 @@
     </div>
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="home">
-        <div *ngFor="let mess of messages">
-          <div class="recieved">
-            <p>{{mess.message}}</p>
-            <small class="blue">{{mess.date | date : "dd/MM/yyyy"}}</small>-<a class="report" href="#">Report</a>
-            <p>
-              <span>
-                    <i class="fa fa-trash-o"></i>
-                    <i class="fa fa-heart-o"></i>
-                </span>
-            </p>
+        <div *ngIf="messages">
+          <div *ngFor="let mess of messages">
+            <div [hidden]="hideme[mess._id]" class="recieved">
+              <p>{{mess.message}}</p>
+              <small class="blue">{{mess.date | date : "dd/MM/yyyy"}}</small>-<a class="report" href="#">Report</a>
+              <p>
+                <span>
+                      <a>
+                          <i (click)="deleteMessage(username, mess._id);  reduce(); hideme[mess._id]=!hideme[mess._id] " class="fa fa-trash-o delete"></i>
+                      </a>
+                      <a>
+                        <i (click)="togglelike()" [ngClass]="{'fa-heart' : favorite, 'fa-heart-o' : !favorite}" class="fa  like"></i>
+                      </a>  
+                      </span>
+              </p>
+            </div>
           </div>
         </div>
-
       </div>
       <div class="tab-pane" id="profile">
         <p>You have no favorite messages</p>

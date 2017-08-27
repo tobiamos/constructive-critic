@@ -5,6 +5,7 @@ const ctrlAuth = require('../controllers/auth');
 
 
 router.get('/message/:username', ctrlAuth.message);
+router.delete('/message/:username', ctrlAuth.deleteMessage);
 router.post('/message/:id', ctrlAuth.sendMessage);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);

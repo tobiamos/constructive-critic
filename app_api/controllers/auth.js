@@ -152,6 +152,30 @@ module.exports.sendMessage = (req, res, next) => {
   }
 };
 
+
+module.exports.deleteMessage = (req,res,next) =>{
+  if(!req.params.username){
+    res.json({success: false , message: "No username provided"});
+  }else if (!req.query.messageId){
+    res.json({success:false, message:"No message id provided"});
+  }else{
+    User.findOne({username: req.params.username}).select('messages').exec((err,user)=>{
+      if(err){
+        res.json({success:false, message:err});
+      }else{
+        const index = user.messages.indexOf(req.query.messageId);
+        user.messages.splice(index);
+        user.save((err,data)=>{
+          if(err){
+            res.json({success:false, message:err});
+          }else{
+            res.json({success:true, message: "Message deleted successfully"});
+          }
+        })
+      }
+    })
+  }
+}
 module.exports.headers = (req, res, next) => {
   const token = req.headers["authorization"];
   if (!token) {

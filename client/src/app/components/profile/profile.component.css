@@ -32,9 +32,7 @@ h6{
 .blue{
     color: #7CE4FE;
 }
-.active{
-    
-}
+
 
 .report{
     color: #afabab;
@@ -43,4 +41,17 @@ h6{
 
 .recieved{
      margin: 10px;
+}
+
+.delete  {
+    font-size: 30px;
+    color : black;
+    margin : 8px;
+}
+
+
+.like {
+    font-size: 30px;
+    /* color : red; */
+    margin : 8px;
 }
