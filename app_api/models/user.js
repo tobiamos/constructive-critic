@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt-nodejs");
 
 const messgeSchema = new mongoose.Schema({
   message : {type:String, required: true},
-  date : { type: Date, default: Date.now()}
+  date : { type: Date, default: Date.now()},
+  favourite : {type: Boolean, default: false}
 });
 
 

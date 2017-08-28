@@ -140,42 +140,81 @@ module.exports.sendMessage = (req, res, next) => {
           res.json({ success: false, message: "User not found" });
         } else if (user) {
           user.messages.push({ message: req.body.message, date: Date.now() });
-          user.save((err,data)=>{
-            if(err){
-              res.json({success:false , message:err});
-            }else{
-              res.json({success:true, message: "Message sent successfully"});
+          user.save((err, data) => {
+            if (err) {
+              res.json({ success: false, message: err });
+            } else {
+              res.json({ success: true, message: "Message sent successfully" });
             }
-          })
+          });
         }
       });
   }
 };
 
-
-module.exports.deleteMessage = (req,res,next) =>{
-  if(!req.params.username){
-    res.json({success: false , message: "No username provided"});
-  }else if (!req.query.messageId){
-    res.json({success:false, message:"No message id provided"});
-  }else{
-    User.findOne({username: req.params.username}).select('messages').exec((err,user)=>{
-      if(err){
-        res.json({success:false, message:err});
-      }else{
-        const index = user.messages.indexOf(req.query.messageId);
-        user.messages.splice(index);
-        user.save((err,data)=>{
-          if(err){
-            res.json({success:false, message:err});
+module.exports.favorite = (req, res, next) => {
+  if (!req.params.username) {
+    res.json({ success: false, message: "No username Provided" });
+  } else if (!req.query.messageId) {
+    res.json({ success: false, message: "No message id provided" });
+  } else {
+    User.findOne({ username: req.params.username })
+      .select("messages")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else if (!user) {
+          res.json({ success: false, message: "Message does not exist" });
+        } else {
+          // const index = user.messages.indexOf(req.query.messageId);
+          const fav = user.messages.pop(req.query.messageId);
+          if(fav.favourite === true){
+            fav.favourite = false;
           }else{
-            res.json({success:true, message: "Message deleted successfully"});
+            fav.favourite = true;
           }
-        })
-      }
-    })
+          console.log(fav);
+          user.messages.push(fav);
+            user.save((err,data)=>{
+              if(err){
+                res.json({success:false, message:err});
+              }else{
+                res.json({success:true , message:"Success"});
+              }
+            })
+        }
+      });
   }
-}
+};
+
+module.exports.deleteMessage = (req, res, next) => {
+  if (!req.params.username) {
+    res.json({ success: false, message: "No username provided" });
+  } else if (!req.query.messageId) {
+    res.json({ success: false, message: "No message id provided" });
+  } else {
+    User.findOne({ username: req.params.username })
+      .select("messages")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else {
+          const index = user.messages.indexOf(req.query.messageId);
+          user.messages.splice(index);
+          user.save((err, data) => {
+            if (err) {
+              res.json({ success: false, message: err });
+            } else {
+              res.json({
+                success: true,
+                message: "Message deleted successfully"
+              });
+            }
+          });
+        }
+      });
+  }
+};
 module.exports.headers = (req, res, next) => {
   const token = req.headers["authorization"];
   if (!token) {

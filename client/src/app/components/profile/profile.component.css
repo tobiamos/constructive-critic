@@ -55,3 +55,11 @@ h6{
     /* color : red; */
     margin : 8px;
 }
+
+.fa-heart{
+    color: #7CE4FE;
+}
+
+.fa-heart[_ngcontent-c2] {
+    color: #7CE4FE;
+}

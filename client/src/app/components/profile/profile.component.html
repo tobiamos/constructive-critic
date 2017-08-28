@@ -30,7 +30,6 @@
         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
           <li class="active"><a href="#home" data-toggle="tab">Recieved</a></li>
           <li><a href="#profile" data-toggle="tab">Favourites</a></li>
-          <li><a href="#messages" data-toggle="tab">Sent</a></li>
         </ul>
       </div>
     </div>
@@ -47,7 +46,7 @@
                           <i (click)="deleteMessage(username, mess._id);  reduce(); hideme[mess._id]=!hideme[mess._id] " class="fa fa-trash-o delete"></i>
                       </a>
                       <a>
-                        <i (click)="togglelike()" [ngClass]="{'fa-heart' : favorite, 'fa-heart-o' : !favorite}" class="fa  like"></i>
+                        <i (click)="favouriteMessage(username, mess.id);" [ngClass]="{'fa-heart' : mess.favourite, 'fa-heart-o' : !mess.favourite}" class="fa  like"></i>
                       </a>  
                       </span>
               </p>
@@ -56,11 +55,25 @@
         </div>
       </div>
       <div class="tab-pane" id="profile">
-        <p>You have no favorite messages</p>
+        <div *ngIf="favmessages">
+          <div *ngFor="let fav of favmessages">
+            <div class="recieved">
+                <p>{{fav.message}}</p>
+                <small class="blue">{{fav.date | date : "dd/MM/yyyy"}}</small>
+                <p>
+                  <span>
+                    <i class="fa fa-trash-o delete"></i>
+                    <i class="fa fa-heart like"></i>
+                  </span>
+                </p>
+            </div>
+            
+          </div>
+
+        </div>
+        
       </div>
-      <div class="tab-pane" id="messages">
-        <p>Here are your messages.</p>
-      </div>
+     
     </div>
   </div>
 </div>

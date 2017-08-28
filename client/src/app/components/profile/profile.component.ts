@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   messages : String[];
   favorite = false;
   deleted = false;
+  favmessages;
   
 
   constructor(private auth : AuthService, private router : Router) { }
@@ -29,18 +30,15 @@ export class ProfileComponent implements OnInit {
       this.photo = profile.user.photo;
       this.messages = profile.user.messages;
       this.count = profile.user.messages.length;
+      this.favmessages = profile.user.messages.filter(function(x){
+        return x.favourite === true;
+      })
+
       console.log(profile);
 
     })
   } 
-  togglelike(){
-    if(!this.favorite){
-      this.favorite = true;
-    }else{
-      this.favorite = false;
-    }
-    
-  }
+  
 
   hideme = {};
 
@@ -61,6 +59,18 @@ export class ProfileComponent implements OnInit {
         // this.infoClass = "alert alert-success fade in";
         // this.info = data.message;
         this.deleted =true;
+      }
+    })
+  }
+
+  favouriteMessage(username, id){
+    this.auth.favouriteMessage(username, id).subscribe(data=>{
+      if(!data.success){
+        this.infoClass = 'alert alert-danger';
+        this.info = data.message;
+      }else{
+        this.infoClass = "alert alert-success";
+        this.info = data.message;
       }
     })
   }
