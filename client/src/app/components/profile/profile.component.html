@@ -1,8 +1,8 @@
 <div class="row show-hide-message">
-    <div [ngClass]="infoClass">
+    <!-- <div [ngClass]="infoClass">
       {{info}}
     </div>
-  </div>
+  </div> -->
 <div class="well">
   <div class="row">
     <div class="col-md-1"></div>
@@ -11,8 +11,8 @@
         <div class="col-sm-5 col-xs-4"></div>
         <div class="col-sm-2 col-xs-4">
           <img [src]="photo" class="img-responsive img-no-padding img-circle" alt="">
-          <p><i class="fa fa-gear"></i>{{username}}</p>
-          <p><i class="fa fa-envelope cb"></i> Messages : {{count}}</p>
+          <p class="bold"><i (click)="setting()" class="fa fa-gear fa-2x"></i>&nbsp;{{username}}</p>
+          <p><i class="fa fa-envelope cb"></i> &nbsp; <strong>{{count}}</strong> </p>
           <p><a href="#">tobidev.constructivecritic.com</a></p>
         </div>
         <div class="col-sm-5 col-xs-4"></div>
@@ -44,9 +44,9 @@
                 <span>
                       <a>
                           <i (click)="deleteMessage(username, mess._id);  reduce(); hideme[mess._id]=!hideme[mess._id] " class="fa fa-trash-o delete"></i>
-                      </a>
+                       </a>
                       <a>
-                        <i (click)="favouriteMessage(username, mess.id);" [ngClass]="{'fa-heart' : mess.favourite, 'fa-heart-o' : !mess.favourite}" class="fa  like"></i>
+                        <i (click)="favouriteMessage(username, mess._id); refresh() " [ngClass]="{'fa-heart' : mess.favourite, 'fa-heart-o' : !mess.favourite}" class="fa  like"></i>
                       </a>  
                       </span>
               </p>
@@ -63,7 +63,7 @@
                 <p>
                   <span>
                     <i class="fa fa-trash-o delete"></i>
-                    <i class="fa fa-heart like"></i>
+                    <i (click)="favouriteMessage(username, fav._id); refresh()" [ngClass]="{'fa-heart' : fav.favourite, 'fa-heart-o' : !fav.favourite}" class="fa  like"></i>
                   </span>
                 </p>
             </div>

@@ -41,6 +41,7 @@ export class ProfileComponent implements OnInit {
   
 
   hideme = {};
+  like = {};
 
   refresh(){
     window.location.reload();
@@ -73,6 +74,10 @@ export class ProfileComponent implements OnInit {
         this.info = data.message;
       }
     })
+  }
+
+  setting(){
+    this.router.navigate(['/settings']);
   }
 
 }

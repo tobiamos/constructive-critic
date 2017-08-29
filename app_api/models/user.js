@@ -174,6 +174,12 @@ UserSchema.pre("save", function(next) {
   });
 });
 
+messgeSchema.methods.deleteMessage = function(messageId){
+   this.message.map(function(x){
+    return x._id;
+  }).indexOf(messageId);
+}
+
 UserSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };

@@ -166,22 +166,20 @@ module.exports.favorite = (req, res, next) => {
         } else if (!user) {
           res.json({ success: false, message: "Message does not exist" });
         } else {
-          // const index = user.messages.indexOf(req.query.messageId);
-          const fav = user.messages.pop(req.query.messageId);
-          if(fav.favourite === true){
-            fav.favourite = false;
+          const thismessage = user.messages.id(req.query.messageId);
+          if(thismessage.favourite === false){
+            thismessage.favourite = true;
           }else{
-            fav.favourite = true;
+            thismessage.favourite = false;
           }
-          console.log(fav);
-          user.messages.push(fav);
-            user.save((err,data)=>{
-              if(err){
-                res.json({success:false, message:err});
-              }else{
-                res.json({success:true , message:"Success"});
-              }
-            })
+
+          user.save((err, data) => {
+            if (err) {
+              res.json({ success: false, message: err });
+            } else {
+              res.json({ success: true, message: "Success" });
+            }
+          });
         }
       });
   }
@@ -199,8 +197,7 @@ module.exports.deleteMessage = (req, res, next) => {
         if (err) {
           res.json({ success: false, message: err });
         } else {
-          const index = user.messages.indexOf(req.query.messageId);
-          user.messages.splice(index);
+          user.messages.id(req.query.messageId).remove();
           user.save((err, data) => {
             if (err) {
               res.json({ success: false, message: err });
