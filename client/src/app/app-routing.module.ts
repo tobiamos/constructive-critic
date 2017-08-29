@@ -8,6 +8,7 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MessageComponent } from './components/message/message.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/notauth.guard";
 
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   {path : "login", component: LoginComponent, canActivate:[NotAuthGuard]},
   {path : "register", component: RegisterComponent, canActivate:[NotAuthGuard]},
   {path : "profile", component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: "settings", component: SettingsComponent, canActivate:[AuthGuard]},
   {path:":username", component: MessageComponent, canActivate:[NotAuthGuard]},
   {path : "**", component : HomeComponent}
 ];
@@ -31,3 +33,4 @@ const appRoutes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
+ 

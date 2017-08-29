@@ -80,9 +80,11 @@ export class AuthService {
       .map(res => res.json());
   }
   favouriteMessage(username, messageId) {
-    return this._http.delete(
-      `http://localhost:3000/api/favourite/${username}?messageId=${messageId}`
-    ).map(res=>res.json());
+    return this._http
+      .delete(
+        `http://localhost:3000/api/favourite/${username}?messageId=${messageId}`
+      )
+      .map(res => res.json());
   }
 
   logout() {

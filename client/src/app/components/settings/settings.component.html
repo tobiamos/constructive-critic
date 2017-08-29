@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-md-4">
+    <ul class="list-group">
+      <li [ngClass]="{'active': personalInfo} " (click)="showPersonalInfo()" class="list-group-item">
+       <p><i class="fa fa-user-o"></i>&nbsp;  Personal Information</p>
+      </li>
+      <li [ngClass]="{'active' : changePassword } " (click)="showChangePassword()" class="list-group-item">
+        <p><i class="fa fa-lock"></i> Change Password</p>
+      </li>
+      <li [ngClass]=" {'active' : removeAccount } " (click)="showRemoveAccount()" class="list-group-item">
+        <p><i class="fa fa-trash-o"></i> Delete Account</p>
+      </li>
+      <li  class="list-group-item">
+        <p> <i class="fa fa-comments"></i> Back to Messages </p>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-8">
+    <div [hidden]="!personalInfo" class="well">
+      <div class="panel-title">
+        Edit Personal Information <i class="fa fa-user-o"></i>
+        <hr>
+        <div class="panel-body">
+          <form [formGroup] = "settingsForm" >
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" name="name" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-lg btn-info"> Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div [hidden]="!changePassword" class="well">
+      <div  class="panel-title">
+        Change Password <i class="fa fa-lock"></i>
+        <hr>
+        <div class="panel-body">
+          <form [formGroup]="passwordForm" >
+            <div class="form-group">
+              <label for="current">Current Password</label>
+              <input type="password" name="current" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="new">New Password</label>
+              <input type="password" name="new" id="new" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="confirm">Confirm Password</label>
+              <input type="password" name="confirm" id="confirm" class="form-control">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-info btn-lg">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <div [hidden]="!removeAccount" class="well">
+       <div class="panel-title">
+         Delete Account <i class="fa fa-trash-o"></i>
+         <hr>
+       </div>
+        <div class="panel-body">
+          <div class="alert alert-danger lob">
+            Are you sure you want to delete your account? deleting your account is irreversible?
+          </div>
+          <div class="form-group">
+            <button class="btn btn-lg btn-danger">Remove</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

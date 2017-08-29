@@ -1,0 +1,16 @@
+.active {
+    background : #7CE4FE;
+    border: #7CE4FE;
+}
+.well{
+    background: #fff;
+}
+input {
+    border: 1px solid skyblue;
+}
+.lob {
+    padding: 40px;
+    font-size: 19px;
+}
+
+
