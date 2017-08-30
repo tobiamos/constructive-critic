@@ -1,4 +1,5 @@
 <div class="row">
+<<<<<<< HEAD
   <div class="col-md-4">
     <ul class="list-group">
       <li [ngClass]="{'active': personalInfo} " (click)="showPersonalInfo()" class="list-group-item">
@@ -68,6 +69,100 @@
          Delete Account <i class="fa fa-trash-o"></i>
          <hr>
        </div>
+=======
+  <div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{message}}
+    </div>
+    <div class="col-md-4">
+      <ul class="list-group">
+        <li [ngClass]="{'active': personalInfo} " (click)="showPersonalInfo()" class="list-group-item">
+          <p><i class="fa fa-user-o"></i>&nbsp; Personal Information for </p>
+        </li>
+        <li [ngClass]="{'active' : changePassword } " (click)="showChangePassword()" class="list-group-item">
+          <p><i class="fa fa-lock"></i> Change Password</p>
+        </li>
+        <li [ngClass]=" {'active' : removeAccount } " (click)="showRemoveAccount()" class="list-group-item">
+          <p><i class="fa fa-trash-o"></i> Delete Account</p>
+        </li>
+        <li class="list-group-item">
+          <p> <i class="fa fa-comments"></i> Back to Messages </p>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8">
+      <div [hidden]="!personalInfo" class="well">
+        <div class="panel-title">
+          Edit Personal Information <i class="fa fa-user-o"></i> <strong> {{formName | uppercase}} </strong>
+          <hr>
+          <div class="panel-body">
+            <form [formGroup]="settingsForm" (submit)="onSettingsFormSubmit()" novalidate>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <div [ngClass]="{'has-error':(name.errors && name.dirty), 'has-success': !name.errors}">
+                  <input [value]="formName" formControlName="name" type="text" name="name" id="name" class="form-control">
+                  <ul class="help-block">
+
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <div [ngClass]="{'has-error':(email.errors && email.dirty) ||(!emailValid && email.dirty) , 'has-success': !email.errors && emailValid}">
+                  <input [value]="formEmail" (blur)="checkEmail()" formControlName="email" type="email" name="email" id="email" class="form-control">
+                  <ul class="help-block">
+                    <li *ngIf="email.errors?.required && email.dirty">
+                      This field is required
+                    </li>
+                    <li *ngIf="email.errors?.email && email.dirty">
+                      Email must be Valid
+                    </li>
+                    <li *ngIf="emailMessage">{{emailMessage}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group">
+                <button [disabled]="!settingsForm.valid" class="btn btn-lg btn-info"> Save</button>
+                <p>{{settingsForm.status | json}}</p>
+                <p>{{settingsForm.value | json}}</p>
+                <p>{{settingsForm.errors | json }}</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div [hidden]="!changePassword" class="well">
+        <div class="panel-title">
+          Change Password <i class="fa fa-lock"></i>
+          <hr>
+          <div class="panel-body">
+            <form [formGroup]="passwordForm">
+              <div class="form-group">
+                <label for="current">Current Password</label>
+                <input formControlName="current" type="password" name="current" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="new">New Password</label>
+                <input formControlName="newpass" type="password" name="newpass" id="newpass" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="confirm">Confirm Password</label>
+                <input formControlName="confirm" type="password" name="confirm" id="confirm" class="form-control">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-info btn-lg">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+      <div [hidden]="!removeAccount" class="well">
+        <div class="panel-title">
+          Delete Account <i class="fa fa-trash-o"></i>
+          <hr>
+        </div>
+>>>>>>> app-settings
         <div class="panel-body">
           <div class="alert alert-danger lob">
             Are you sure you want to delete your account? deleting your account is irreversible?
@@ -76,6 +171,12 @@
             <button class="btn btn-lg btn-danger">Remove</button>
           </div>
         </div>
+<<<<<<< HEAD
     </div>
   </div>
 </div>
+=======
+      </div>
+    </div>
+  </div>
+>>>>>>> app-settings

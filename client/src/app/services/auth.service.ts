@@ -95,4 +95,11 @@ export class AuthService {
   loggedIn() {
     return tokenNotExpired();
   }
+
+  changePersonalInfo(userdetails) {
+    this.createAuthenticationHeaders();
+    return this._http
+      .post(`http://localhost:3000/api/changepersonalinfo`, userdetails)
+      .map(res => res.json());
+  }
 }
