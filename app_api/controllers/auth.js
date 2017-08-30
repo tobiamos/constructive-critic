@@ -168,20 +168,20 @@ module.exports.favorite = (req, res, next) => {
         } else {
           // const index = user.messages.indexOf(req.query.messageId);
           const fav = user.messages.pop(req.query.messageId);
-          if(fav.favourite === true){
+          if (fav.favourite === true) {
             fav.favourite = false;
-          }else{
+          } else {
             fav.favourite = true;
           }
           console.log(fav);
           user.messages.push(fav);
-            user.save((err,data)=>{
-              if(err){
-                res.json({success:false, message:err});
-              }else{
-                res.json({success:true , message:"Success"});
-              }
-            })
+          user.save((err, data) => {
+            if (err) {
+              res.json({ success: false, message: err });
+            } else {
+              res.json({ success: true, message: "Success" });
+            }
+          });
         }
       });
   }
@@ -233,7 +233,7 @@ module.exports.headers = (req, res, next) => {
 
 module.exports.profile = (req, res, next) => {
   User.findOne({ _id: req.decoded.userId })
-    .select("username email messages photo")
+    .select("username name email messages photo")
     .exec((err, user) => {
       if (err) {
         res.json({ success: false, message: err });
@@ -243,4 +243,32 @@ module.exports.profile = (req, res, next) => {
         res.json({ success: true, user: user });
       }
     });
+};
+
+module.exports.changePersonalInfo = (req, res, next) => {
+  if (!req.body.name) {
+    res.json({ success: false, message: "Name field required" });
+  } else if (!req.body.email) {
+    res.json({ success: false, message: "Email field required" });
+  } else {
+    User.findById({ email: req.body.formEmail })
+      .select("name email")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else if (!user) {
+          res.json({ success: false, message: "No user found" });
+        } else {
+          user.name = req.body.name;
+          user.email = req.body.email;
+          user.save((err, data) => {
+            if (err) {
+              res.json({ success: false, message: err });
+            } else {
+              res.json({ success: true, message: "Update successfull" });
+            }
+          });
+        }
+      });
+  }
 };
