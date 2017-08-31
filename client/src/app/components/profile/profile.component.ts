@@ -7,6 +7,8 @@ import { Router } from "@angular/router";
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
+
 export class ProfileComponent implements OnInit {
 
   username;
@@ -20,8 +22,11 @@ export class ProfileComponent implements OnInit {
   deleted = false;
   favmessages;
   
+  
 
-  constructor(private auth : AuthService, private router : Router) { }
+  constructor(private auth : AuthService, private router : Router) { 
+      this.refreshTime;
+  }
 
   ngOnInit() {
     this.auth.getProfile().subscribe(profile=>{
@@ -34,7 +39,7 @@ export class ProfileComponent implements OnInit {
         return x.favourite === true;
       })
 
-      console.log(profile);
+      
 
     })
   } 
@@ -79,5 +84,23 @@ export class ProfileComponent implements OnInit {
   setting(){
     this.router.navigate(['/settings']);
   }
+
+  refreshTime = setInterval(()=>{
+
+    this.auth.getProfile().subscribe(profile=>{
+      this.username = profile.user.username;
+      this.email = profile.user.email;
+      this.photo = profile.user.photo;
+      this.messages = profile.user.messages;
+      this.count = profile.user.messages.length;
+      this.favmessages = profile.user.messages.filter(function(x){
+        return x.favourite === true;
+      })
+
+      
+
+    })
+
+  },5000)
 
 }

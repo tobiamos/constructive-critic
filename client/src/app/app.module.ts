@@ -5,6 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AboutComponent } from './components/about/about.component';
@@ -18,6 +19,8 @@ import {AuthGuard} from './guards/auth.guard';
 import { NotAuthGuard } from "./guards/notauth.guard";
 import { MessageComponent } from './components/message/message.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { SettingsComponent } from './components/settings/settings.component';
     ProfileComponent,
     HomeComponent,
     MessageComponent,
-    SettingsComponent
+    SettingsComponent,
+    ForgotpasswordComponent,
+   
+   
   ],
   imports: [
     BrowserModule,
