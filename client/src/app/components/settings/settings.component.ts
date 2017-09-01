@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
-@Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
-})
-export class SettingsComponent implements OnInit {
-
-  settingsForm : FormGroup;
-  passwordForm : FormGroup;
-  personalInfo = true;
-  changePassword = false;
-  removeAccount = false;
-  constructor(private fb: FormBuilder) { 
-=======
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
@@ -51,34 +33,12 @@ export class SettingsComponent implements OnInit {
     public router: Router,
     private flash: FlashMessagesService
   ) {
->>>>>>> app-settings
     this.createSettingsForm();
     this.createPasswordForm();
     this.createProfilePictureForm();
   }
 
   ngOnInit() {
-<<<<<<< HEAD
-  }
-
-
-  createSettingsForm () {
-    this.settingsForm = this.fb.group({
-      name : ['', Validators.required],
-      email : ['', Validators.required]
-    })
-  }
-
-  createPasswordForm () {
-    this.passwordForm = this.fb.group({
-      current : ['', Validators.required],
-      new : ['', Validators.required],
-      confirm : ['', Validators.required]
-    })
-  }
-
-  showPersonalInfo(){
-=======
     this.auth.getProfile().subscribe(data => {
       this.formName = data.user.name;
       this.formEmail = data.user.email;
@@ -141,23 +101,12 @@ export class SettingsComponent implements OnInit {
   }
 
   showPersonalInfo() {
->>>>>>> app-settings
     this.personalInfo = true;
     this.changePassword = false;
     this.removeAccount = false;
     this.changeProfilePicture = false;
   }
 
-<<<<<<< HEAD
-  showChangePassword(){
-    this.personalInfo = false;
-    this.changePassword = true;
-    this.removeAccount = false;
-
-  }
-
-  showRemoveAccount(){
-=======
   showChangePassword() {
     this.personalInfo = false;
     this.changePassword = true;
@@ -166,7 +115,6 @@ export class SettingsComponent implements OnInit {
   }
 
   showRemoveAccount() {
->>>>>>> app-settings
     this.personalInfo = false;
     this.changePassword = false;
     this.removeAccount = true;
@@ -180,8 +128,7 @@ export class SettingsComponent implements OnInit {
     this.changeProfilePicture = true;
 
   }
-<<<<<<< HEAD
-=======
+
   validateName(controls) {
     const regex = new RegExp(/^[a-zA-Z\s]*$/);
     if (regex.test(controls.value)) {
@@ -288,10 +235,6 @@ export class SettingsComponent implements OnInit {
     this.router.navigate(["/"]);
   }
 
-<<<<<<< HEAD
-  onPasswordFormSubmit() {}
->>>>>>> app-settings
-=======
   onPasswordFormSubmit() {
     const userdetails = {
       current: this.passwordForm.get("current").value,
@@ -321,5 +264,4 @@ export class SettingsComponent implements OnInit {
       }
     });
   }
->>>>>>> app-settings
 }

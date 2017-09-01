@@ -176,7 +176,6 @@ module.exports.favorite = (req, res, next) => {
         } else if (!user) {
           res.json({ success: false, message: "Message does not exist" });
         } else {
-<<<<<<< HEAD
           const thismessage = user.messages.id(req.query.messageId);
           if(thismessage.favourite === false){
             thismessage.favourite = true;
@@ -184,17 +183,6 @@ module.exports.favorite = (req, res, next) => {
             thismessage.favourite = false;
           }
 
-=======
-          // const index = user.messages.indexOf(req.query.messageId);
-          const fav = user.messages.pop(req.query.messageId);
-          if (fav.favourite === true) {
-            fav.favourite = false;
-          } else {
-            fav.favourite = true;
-          }
-          console.log(fav);
-          user.messages.push(fav);
->>>>>>> app-settings
           user.save((err, data) => {
             if (err) {
               res.json({ success: false, message: err });
