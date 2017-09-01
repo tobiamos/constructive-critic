@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const dbURI = "mongodb://127.0.0.1/critic";
+const dbURI = "mongodb://critic:Ridick123@ds115124.mlab.com:15124/critic";
 mongoose.connect(dbURI);
 
 mongoose.connection.on('connected',()=>{

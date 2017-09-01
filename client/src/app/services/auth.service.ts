@@ -6,7 +6,7 @@ import { tokenNotExpired } from "angular2-jwt";
 @Injectable()
 export class AuthService {
   registerRoute = "http://localhost:3000/api/register";
-  apiRoute = "http://localhost:3000/api";
+  apiRoute = "https://whispering-harbor-94395.herokuapp.com/api";
   authToken;
   user;
   options;
