@@ -6,6 +6,7 @@ import { tokenNotExpired } from "angular2-jwt";
 @Injectable()
 export class AuthService {
   registerRoute = "http://localhost:3000/api/register";
+  apiRoute = "http://localhost:3000/api";
   authToken;
   user;
   options;
@@ -27,24 +28,24 @@ export class AuthService {
   constructor(private _http: Http) {}
 
   registerUser(user) {
-    return this._http.post(this.registerRoute, user).map(res => res.json());
+    return this._http.post(`${this.apiRoute}/register`, user).map(res => res.json());
   }
 
   checkUsername(username) {
     return this._http
-      .get(`http://localhost:3000/api/checkusername/${username}`)
+      .get(`${this.apiRoute}/checkusername/${username}`)
       .map(res => res.json());
   }
 
   checkEmail(email) {
     return this._http
-      .get(`http://localhost:3000/api/checkemail/${email}`)
+      .get(`${this.apiRoute}/checkemail/${email}`)
       .map(res => res.json());
   }
 
   login(user) {
     return this._http
-      .post(`http://localhost:3000/api/login`, user)
+      .post(`${this.apiRoute}/login`, user)
       .map(res => res.json());
   }
   storeUserData(token, user) {
@@ -57,32 +58,32 @@ export class AuthService {
   getProfile() {
     this.createAuthenticationHeaders();
     return this._http
-      .get(`http://localhost:3000/api/profile`, this.options)
+      .get(`${this.apiRoute}/profile`, this.options)
       .map(res => res.json());
   }
 
   getMessage(username) {
     return this._http
-      .get(`http://localhost:3000/api/message/${username}`)
+      .get(`${this.apiRoute}/message/${username}`)
       .map(res => res.json());
   }
   sendMessage(userid, message) {
     return this._http
-      .post(`http://localhost:3000/api/message/${userid}`, message)
+      .post(`${this.apiRoute}/message/${userid}`, message)
       .map(res => res.json());
   }
 
   deleteMessage(username, messageId) {
     return this._http
       .delete(
-        `http://localhost:3000/api/message/${username}?messageId=${messageId}`
+        `${this.apiRoute}/message/${username}?messageId=${messageId}`
       )
       .map(res => res.json());
   }
   favouriteMessage(username, messageId) {
     return this._http
       .delete(
-        `http://localhost:3000/api/favourite/${username}?messageId=${messageId}`
+        `${this.apiRoute}/favourite/${username}?messageId=${messageId}`
       )
       .map(res => res.json());
   }
@@ -99,7 +100,24 @@ export class AuthService {
   changePersonalInfo(userdetails) {
     this.createAuthenticationHeaders();
     return this._http
-      .post(`http://localhost:3000/api/changepersonalinfo`, userdetails)
+      .post(`${this.apiRoute}/changepersonalinfo`, userdetails)
+      .map(res => res.json());
+  }
+  changePassword(userdetails) {
+    this.createAuthenticationHeaders();
+    return this._http
+      .post(`${this.apiRoute}/changepassword`, userdetails)
+      .map(res => res.json());
+  }
+  removeUser(username) {
+    return this._http
+      .delete(`${this.apiRoute}/removeuser/${username}`)
+      .map(res => res.json());
+  }
+
+  forgotPassword(email) {
+    return this._http
+      .post(`${this.apiRoute}/forgotpassword`, email)
       .map(res => res.json());
   }
 }

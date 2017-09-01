@@ -77,7 +77,7 @@
     <div class="col-md-4">
       <ul class="list-group">
         <li [ngClass]="{'active': personalInfo} " (click)="showPersonalInfo()" class="list-group-item">
-          <p><i class="fa fa-user-o"></i>&nbsp; Personal Information for </p>
+          <p><i class="fa fa-user-o"></i>&nbsp; Edit Personal Information  </p>
         </li>
         <li [ngClass]="{'active' : changePassword } " (click)="showChangePassword()" class="list-group-item">
           <p><i class="fa fa-lock"></i> Change Password</p>
@@ -85,7 +85,10 @@
         <li [ngClass]=" {'active' : removeAccount } " (click)="showRemoveAccount()" class="list-group-item">
           <p><i class="fa fa-trash-o"></i> Delete Account</p>
         </li>
-        <li class="list-group-item">
+        <!-- <li [ngClass]="{'active': changeProfilePicture}" (click)="showProfilePicture()"  class="list-group-item">
+          <p><i class="fa fa-user"></i>Change Profile Picture</p>
+        </li> -->
+        <li class="list-group-item" (click)="router.navigate(['/profile'])" >
           <p> <i class="fa fa-comments"></i> Back to Messages </p>
         </li>
       </ul>
@@ -123,9 +126,6 @@
               </div>
               <div class="form-group">
                 <button [disabled]="!settingsForm.valid" class="btn btn-lg btn-info"> Save</button>
-                <p>{{settingsForm.status | json}}</p>
-                <p>{{settingsForm.value | json}}</p>
-                <p>{{settingsForm.errors | json }}</p>
               </div>
             </form>
           </div>
@@ -136,21 +136,58 @@
           Change Password <i class="fa fa-lock"></i>
           <hr>
           <div class="panel-body">
-            <form [formGroup]="passwordForm">
+            <form [formGroup]="passwordForm" novalidate  (submit)="onPasswordFormSubmit()" >
               <div class="form-group">
                 <label for="current">Current Password</label>
-                <input formControlName="current" type="password" name="current" class="form-control">
+                <div [ngClass]="{'has-error': current.errors && current.dirty , 'has-success' : !current.errors}" >
+                  <input formControlName="current" type="password" name="current" class="form-control">
+                  <ul class="help-block">
+                      <li *ngIf="current.errors?.required && current.dirty">
+                        This field is required
+                      </li>
+                      <li *ngIf="(current.errors?.minlength || current.errors?.maxlength) && current.dirty">
+                        Maximum characters 35 minimum 6
+                      </li>
+                      <li *ngIf="current.errors?.validatePassword && current.dirty">
+                        Password must have at least one lowercase, uppercase, number and special character
+                      </li>
+                    </ul>
+                </div>
               </div>
               <div class="form-group">
                 <label for="new">New Password</label>
-                <input formControlName="newpass" type="password" name="newpass" id="newpass" class="form-control">
+                <div [ngClass]="{'has-error': newpass.errors && newpass.dirty , 'has-success' : !newpass.errors}"  >
+                  <input formControlName="newpass" type="password" name="newpass" id="newpass" class="form-control">
+                  <ul class="help-block">
+                      <li *ngIf="newpass.errors?.required && newpass.dirty">
+                        This field is required
+                      </li>
+                      <li *ngIf="(newpass.errors?.minlength || newpass.errors?.maxlength) && newpass.dirty">
+                        Maximum characters 35 minimum 6
+                      </li>
+                      <li *ngIf="newpass.errors?.validatePassword && newpass.dirty">
+                        Password must have at least one lowercase, uppercase, number and special character
+                      </li>
+                    </ul>
+                </div>
               </div>
               <div class="form-group">
                 <label for="confirm">Confirm Password</label>
-                <input formControlName="confirm" type="password" name="confirm" id="confirm" class="form-control">
+                <div [ngClass]="{'has-error':(confirm.errors && confirm.dirty) || (passwordForm.errors?.matchingPasswords && confirm.dirty), 'has-success': !confirm.errors && !passwordForm.errors?.matchingPasswords}" >
+                  <input formControlName="confirm" type="password" name="confirm" id="confirm" class="form-control">
+                  
+                  <ul class="help-block">
+                    <li *ngIf="confirm.errors?.required && confirm.dirty ">
+                      This field is required
+                    </li>
+                    <li *ngIf="passwordForm.errors?.matchingPasswords && confirm.dirty">
+                      Passwords do not match
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div class="form-group">
-                <button class="btn btn-info btn-lg">Save</button>
+                <button [disabled]="!passwordForm.valid" class="btn btn-info btn-lg">Save</button>
               </div>
             </form>
           </div>
@@ -168,7 +205,7 @@
             Are you sure you want to delete your account? deleting your account is irreversible?
           </div>
           <div class="form-group">
-            <button class="btn btn-lg btn-danger">Remove</button>
+            <button (click)="deleteUser(username)" class="btn btn-lg btn-danger">Remove</button>
           </div>
         </div>
 <<<<<<< HEAD
@@ -177,6 +214,20 @@
 </div>
 =======
       </div>
+      <!-- <div [hidden]="!changeProfilePicture" class="well">
+        <div class="panel-title">Change Profile Picture</div>
+        <div class="panel-body">
+          <form [formGroup]="profilePictureForm" novalidate>
+            <div class="form-group">
+              <label for="picture">Picture</label>
+              <input type="file" name="pic" id="pic" class="form-control">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-info">Upload</button>
+            </div>
+          </form>
+        </div>
+      </div> -->
     </div>
   </div>
 >>>>>>> app-settings

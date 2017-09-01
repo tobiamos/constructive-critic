@@ -1,7 +1,17 @@
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto").randomBytes(256).toString("hex");
+const crypto = require("crypto")
+  .randomBytes(256)
+  .toString("hex");
+const faker = require("faker");
+const formidable = require('formidable');
+
+
+// const dest = require('../../public/uploads/')
+function createPassword() {
+  return `CC` + faker.internet.password() + `9z@#`;
+}
 
 module.exports.register = (req, res, next) => {
   if (!req.body.email) {
@@ -260,7 +270,7 @@ module.exports.changePersonalInfo = (req, res, next) => {
   } else if (!req.body.email) {
     res.json({ success: false, message: "Email field required" });
   } else {
-    User.findById({ email: req.body.formEmail })
+    User.findOne({ email: req.body.formEmail })
       .select("name email")
       .exec((err, user) => {
         if (err) {
@@ -281,3 +291,94 @@ module.exports.changePersonalInfo = (req, res, next) => {
       });
   }
 };
+
+module.exports.changePassword = (req, res, next) => {
+  if (!req.body.current) {
+    res.json({ success: false, message: "Current password not provided" });
+  } else if (!req.body.newpass) {
+    res.json({ success: false, message: "New password not provided" });
+  } else if (!req.body.email) {
+    res.json({ success: false, message: "Email not provided" });
+  } else {
+    User.findOne({ email: req.body.email })
+      .select("password")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else if (!user) {
+          res.json({ success: false, message: "User not found" });
+        } else {
+          const validPassword = user.comparePassword(req.body.current);
+          if (!validPassword) {
+            res.json({ success: false, message: "Password Invalid" });
+          } else {
+            user.password = req.body.newpass;
+            user.save((err, data) => {
+              if (err) {
+                res.json({ success: false, message: err });
+              } else {
+                res.json({
+                  success: true,
+                  message: "Password change successful!"
+                });
+              }
+            });
+          }
+        }
+      });
+  }
+};
+
+module.exports.removeUser = (req, res, next) => {
+  if (!req.params.username) {
+    res.json({ success: false, message: "No user provided" });
+  } else {
+    User.findOne({ username: req.params.username }, (err, user) => {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else if (!user) {
+        res.json({ success: false, message: "User not found" });
+      } else {
+        user.remove((err, data) => {
+          if (err) {
+            res.json({ success: false, message: err });
+          } else {
+            res.json({ success: true, message: "User deleted" });
+          }
+        });
+      }
+    });
+  }
+};
+
+module.exports.forgotPassword = (req, res, next) => {
+  if (!req.body.email) {
+    res.json({ success: false, message: "Email is required" });
+  } else {
+    User.findOne({ email: req.body.email })
+      .select("email password")
+      .exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else if (!user) {
+          res.json({ success: false, message: "Email does not exist" });
+        } else {
+          const password = createPassword();
+          user.password = password;
+          user.save((err, user) => {
+            if (err) {
+              res.json({ success: false, message: err });
+            } else {
+              res.json({ success: true, message: password });
+            }
+          });
+        }
+      });
+  }
+};
+
+module.exports.uploadImage = (req,res,next) =>{
+  console.log(req.file);
+  
+}
+
